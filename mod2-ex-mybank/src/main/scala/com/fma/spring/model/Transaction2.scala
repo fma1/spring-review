@@ -6,7 +6,7 @@ import java.time.ZonedDateTime
 import java.util.UUID
 import scala.beans.BeanProperty
 
-case class Transaction2(@BeanProperty var amount: BigDecimal, @BeanProperty var reference: String) {
+case class Transaction2(@BeanProperty var amount: BigDecimal, @BeanProperty var reference: String, @BeanProperty var bankSlogan: String) {
   @BeanProperty
   var id: String = UUID.randomUUID().toString
 
