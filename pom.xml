@@ -14,10 +14,21 @@
         <maven.compiler.target>16</maven.compiler.target>
         <scala.version>2.13.10</scala.version>
         <jackson.version>2.14.1</jackson.version>
+        <spring.version>6.0.3</spring.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-scala_2.13</artifactId>
@@ -65,6 +76,7 @@
 
     <modules>
         <module>mod1-myfancypdfinvoices</module>
+        <module>mod1-ex-mybank</module>
     </modules>
 
 </project>
