@@ -1,6 +1,6 @@
 package com.fma.spring
 
-import com.fma.spring.context.BankAppConfig3
+import com.fma.spring.context.BankAppConfig4
 import org.apache.catalina.startup.Tomcat
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext
@@ -8,7 +8,7 @@ import org.springframework.web.servlet.DispatcherServlet
 
 import javax.servlet.ServletContext
 
-object BankApplicationLauncher3 {
+object BankApplicationLauncher4 {
   private val PORT = System.getProperty("server.port", "8080").toInt
   def main(args: Array[String]): Unit = {
     val tomcat = new Tomcat()
@@ -26,7 +26,7 @@ object BankApplicationLauncher3 {
 
   private def createApplicationContext(servlet: ServletContext): WebApplicationContext = {
     val ctx = new AnnotationConfigWebApplicationContext()
-    ctx.register(classOf[BankAppConfig3])
+    ctx.register(classOf[BankAppConfig4])
     ctx.setServletContext(servlet)
     ctx.refresh()
     ctx.registerShutdownHook()
@@ -34,4 +34,4 @@ object BankApplicationLauncher3 {
   }
 }
 
-class BankApplicationLauncher3
+class BankApplicationLauncher4

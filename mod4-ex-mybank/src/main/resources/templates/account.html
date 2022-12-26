@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Timestamp</th>
+        <th>Amount</th>
+        <th>Reference</th>
+        <th>Bank Slogan</th>
+        <th>Receiving User</th>
+    </tr>
+    <tr th:each="transaction : ${transactionLst}">
+        <td><span th:text="${transaction.id}">[id]</span></td>
+        <td><span th:text="${transaction.timestamp}">[timestamp]</span></td>
+        <td><span th:text="${transaction.amount}">[amount]</span></td>
+        <td><span th:text="${transaction.reference}">[reference]</span></td>
+        <td><span th:text="${transaction.bankSlogan}">[bankSlogan]</span></td>
+        <td><span th:text="${transaction.receivingUser}">[bankSlogan]</span></td>
+    </tr>
+</table>
+<br />
+<span th:if="${param.invalidInput}" style="background-color: red;">
+    Sorry, either the amount or the reference text is incorrect.
+</span>
+<form th:action="@{/addTransaction}" th:object="${addTxForm}" method="post">
+    <p>Amount: <input type="text" th:field="*{amount}"/></p>
+    <p>Reference: <input type="text" th:field="*{reference}"/></p>
+    <p>ReceivingUser: <input type="text" th:field="*{receivingUser}"/></p>
+    <p><input type="submit" value="Submit"/></p>
+</form>
+</body>
+</html>
+

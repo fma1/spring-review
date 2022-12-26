@@ -3,7 +3,7 @@ package com.fma.spring.dto
 import javax.validation.constraints.{Min, NotBlank}
 import scala.beans.BeanProperty
 
-class TransactionDto {
+class TransactionDto4 {
   @BeanProperty
   @Min(0)
   var amount: BigDecimal = _
@@ -11,4 +11,8 @@ class TransactionDto {
   @BeanProperty
   @NotBlank
   var reference: String = _
+
+  @BeanProperty
+  @NotBlank
+  var receivingUser: String = _
 }
