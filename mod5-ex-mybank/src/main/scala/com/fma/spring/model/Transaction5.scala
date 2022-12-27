@@ -16,4 +16,6 @@ case class Transaction5(@BeanProperty var amount: BigDecimal,
   @BeanProperty
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mmZ")
   var timestamp: ZonedDateTime = ZonedDateTime.now()
+
+  def this() = this(null, null, null, null)
 }
