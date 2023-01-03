@@ -1,69 +1,32 @@
 package com.fma.spring.service
 
 import com.fma.spring.model.Transaction7
-import com.fma.spring.service.TransactionService7.ROW_MAPPER
+import com.fma.spring.repostitory.TransactionRepository7
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.jdbc.core.{JdbcTemplate, RowMapper}
-import org.springframework.jdbc.support.GeneratedKeyHolder
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.transaction.support.TransactionSynchronizationManager
 
-import java.sql.{Connection, ResultSet, Statement}
-import java.util.concurrent.CopyOnWriteArrayList
-import java.util.{UUID, List => JList}
+import java.lang.{Iterable => JIterable}
 import scala.beans.BeanProperty
 
 @Component
-class TransactionService7(jdbcTemplate: JdbcTemplate) {
+class TransactionService7(transactionRepository: TransactionRepository7) {
   @BeanProperty
   @Value("${bank.slogan}")
   var bankSlogan: String = _
 
   @Transactional
-  def findByReceivingUser(userId: String): JList[Transaction7] = {
-    jdbcTemplate.query("select id, amount, reference, bank_slogan, receiving_user from transactions where receiving_user = ?",
-      ROW_MAPPER, userId)
+  def findByReceivingUser(userId: String): JIterable[Transaction7] = {
+    transactionRepository.findByUser(userId)
   }
 
-  def findAll(): JList[Transaction7] = {
-    jdbcTemplate.query("select id, amount, reference, bank_slogan, receiving_user from transactions", ROW_MAPPER)
+  def findAll(): JIterable[Transaction7] = {
+    transactionRepository.findAll()
   }
 
   @Transactional
-  def create(amount: BigDecimal, reference: String, receivingUser: String): Transaction7 = {
-    System.out.println("Is a database transaction open? = " + TransactionSynchronizationManager.isActualTransactionActive)
-    val keyHolder = new GeneratedKeyHolder()
-
-    jdbcTemplate.update((conn: Connection) => {
-      val preparedStatement = conn.
-        prepareStatement("insert into transactions (amount, reference, bank_slogan, receiving_user) values (?, ?, ?, ?)",
-          Statement.RETURN_GENERATED_KEYS)
-      preparedStatement.setBigDecimal(1, amount.bigDecimal)
-      preparedStatement.setString(2, reference)
-      preparedStatement.setString(3, bankSlogan)
-      preparedStatement.setString(4, receivingUser)
-      preparedStatement
-    }, keyHolder)
-
-    val uuid = Option(keyHolder.getKeys.values)
-      .map(_.iterator.next.asInstanceOf[UUID].toString)
-      .orNull
-
-    val transaction = Transaction7(amount, reference, bankSlogan, receivingUser)
-    transaction.setId(uuid)
-    transaction
-  }
-}
-
-object TransactionService7 {
-  final val ROW_MAPPER: RowMapper[Transaction7] = (resultSet: ResultSet, _: Int) => {
-    val transaction = new Transaction7()
-    transaction.id = resultSet.getObject("id").toString
-    transaction.amount = resultSet.getBigDecimal("amount")
-    transaction.reference = resultSet.getString("reference")
-    transaction.bankSlogan = resultSet.getString("bank_slogan")
-    transaction.receivingUser = resultSet.getString("receiving_user")
-    transaction
+  def create(amount: java.math.BigDecimal, reference: String, receivingUser: String): Transaction7 = {
+    transactionRepository.save(Transaction7(amount, reference, bankSlogan, receivingUser))
   }
 }

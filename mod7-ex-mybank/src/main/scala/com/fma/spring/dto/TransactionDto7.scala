@@ -6,7 +6,7 @@ import scala.beans.BeanProperty
 class TransactionDto7 {
   @BeanProperty
   @Min(0)
-  var amount: BigDecimal = _
+  var amount: java.math.BigDecimal = _
 
   @BeanProperty
   @NotBlank
