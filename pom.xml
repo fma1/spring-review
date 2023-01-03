@@ -139,6 +139,7 @@
         <module>mod4-ex-mybank</module>
         <module>mod5-ex-mybank</module>
         <module>mod6-ex-mybank</module>
+        <module>mod7-ex-mybank</module>
     </modules>
 
 </project>
